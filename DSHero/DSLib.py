@@ -4,47 +4,7 @@ import threading
 
 '''DSLib is used for manupulating keys(still not fully working) and joysticks(i think that works)'''
 
-# Hic sunt dracones
-
-class EventManegament(threading.Thread):
-    # Okay, if you REALLY need:
-    # This part of the program get the events -- OLD
-    # It was supposed to be a event controller, but don't worked well.
-    def __init__(self):
-        pygame.init()
-        self.stop = False
-        pygame.display.init()
-        self.screen = pygame.display.set_mode((400, 400))
-        pygame.display.set_caption("IGNORE ME")
-        self.events = []
-        super(EventManegament, self).__init__()
-    
-    def get_events(self):
-        return self.events
-    
-    def stop(self):
-        self.stop = True
-        
-    def run(self):
-        while not self.stop:
-            pygame.time.wait(200)
-            self.events = self.events + pygame.event.get()
-            pygame.event.clear()
-            self.screen.fill([0, 0, 0])
-            pygame.display.flip()
-# Here is the known world
-
 # I don't know if i will use this, but...
-class ButtonCollection():
-    def __init__(self, *args):
-        self.args = args
-        
-    def make_key_collection(self):
-        dictkeys = {}
-        for i in self.args:
-            dictkeys[i.get_name()] = i.get_pressed()
-        return dictkeys
-
 class Key():
     '''Initializes the key control.
     Please, use this as an example for 'key' argument:
