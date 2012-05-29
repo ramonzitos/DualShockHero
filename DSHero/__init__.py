@@ -5,17 +5,11 @@ import sys
 # Use this if you want to use a joystick:
 joystick = DSLib.Joystick(2)
 
-#shit = DSLib.Button(6, joystick)
-red = DSLib.Button(3, joystick)
 green = DSLib.Button(2, joystick)
+red = DSLib.Button(3, joystick)
 yellow = DSLib.Button(4, joystick)
 blue = DSLib.Button(5, joystick)
 orange = DSLib.Button(6, joystick)
-#green = DSLib.Key(pygame.K_a, "a")
-#red = DSLib.Key(pygame.K_s, "s")
-#yellow = DSLib.Key(pygame.K_j, "j")
-#blue = DSLib.Key(pygame.K_k, "k")
-#orange = DSLib.Key(pygame.K_l, "l")
 strum = DSLib.Key(pygame.K_RETURN, "{ENTER}")
 
 time_window = 20
