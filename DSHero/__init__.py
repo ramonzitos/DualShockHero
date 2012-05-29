@@ -1,3 +1,18 @@
+#    Copyright (C) 2012  Ramon Dantas
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 import DSLib
 import pygame
 import sys
@@ -60,11 +75,11 @@ def main(joystick, green, red, yellow, blue, orange, strum):
         elif e.type == pygame.JOYBUTTONDOWN or e.type == pygame.JOYBUTTONUP:
             old_dict_buttons = handleJoyEvent(old_dict_buttons, joystick, green, red, yellow, blue, orange, strum)
         screen.fill(pygame.color.Color("black"))
-        font72 = pygame.font.Font(None, 72)
-        font16 = pygame.font.Font(None, 16)
-        font20 = pygame.font.Font(None, 20)
-        screen.blit(font72.render("Go play!", True, [255, 255, 255]), (100, 0))
-        screen.blit(font16.render("If you want to exit, press ALT-F4 or click the X Button", True, [255, 255, 255]), (50, 72))
+        font48 = pygame.font.Font("freesansbold.ttf", 48)
+        font9 = pygame.font.Font("freesansbold.ttf", 9)
+        font12 = pygame.font.Font("freesansbold.ttf", 12)
+        screen.blit(font48.render("Go play!", True, [255, 255, 255]), (100, 0))
+        screen.blit(font12.render("If you want to exit, press ALT-F4 or click the X Button", True, [255, 255, 255]), (50, 72))
 #        screen.blit()
         pygame.display.flip()
 
