@@ -47,19 +47,12 @@ def handleExitEvent():
 def handleJoyEvent(old_dict_buttons, joystick, *args):
     global time_window
     global timing_repress
-    button_pressed = False
     dict_buttons = joystick.get_buttons_pressed(*args)
-    for k, v in dict_buttons.iteritems():
-        if v == True and old_dict_buttons[k] != v: button_pressed = True
-    if old_dict_buttons != dict_buttons:
+    while not (old_dict_buttons == dict_buttons):
+        dict_buttons = joystick.get_buttons_pressed(*args)
         old_dict_buttons = dict_buttons
-        if button_pressed:
-            pygame.time.delay(time_window)
-            while not (old_dict_buttons == dict_buttons):
-                dict_buttons = joystick.get_buttons_pressed(*args)
-                old_dict_buttons = dict_buttons
-                pygame.time.delay(timing_repress)
-            args[-1].press()
+        pygame.time.delay(timing_repress)
+    args[-1].press()
     return old_dict_buttons
 
 def main(joystick, green, red, yellow, blue, orange, strum):
@@ -72,7 +65,7 @@ def main(joystick, green, red, yellow, blue, orange, strum):
     while True:
         e = pygame.event.wait()
         if e.type == pygame.QUIT: handleExitEvent()
-        elif e.type == pygame.JOYBUTTONDOWN or e.type == pygame.JOYBUTTONUP:
+        elif e.type == pygame.JOYBUTTONDOWN:
             old_dict_buttons = handleJoyEvent(old_dict_buttons, joystick, green, red, yellow, blue, orange, strum)
         screen.fill(pygame.color.Color("black"))
         font48 = pygame.font.Font("freesansbold.ttf", 48)
