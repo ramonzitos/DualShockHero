@@ -37,8 +37,8 @@ orange = DSLib.Button(parser.getint("Buttons", "orange"), joystick)
 strum = DSLib.Key(pygame.K_RETURN, "{ENTER}")
 
 # Timing window(set at your preference).
-time_window = 5
-timing_repress = 10
+time_window = 20
+timing_repress = 20
 
 def init():
     pygame.init()
@@ -57,16 +57,17 @@ def handleExitEvent():
 def handleJoyEvent(joystick, *args):
     global time_window
     global timing_repress
-    old_dict_buttons = joystick.get_buttons_pressed(*args)
-    pygame.time.delay(time_window)
+    old_dict_buttons = {}
     dict_buttons = joystick.get_buttons_pressed(*args)
-#    print "handleJoyEvent: Starting loop."
+    time.sleep(float(time_window)/1000.0)
+    print "handleJoyEvent: Starting loop."
     while not (old_dict_buttons == dict_buttons):
         old_dict_buttons = dict_buttons
-        pygame.time.delay(timing_repress)
+        time.sleep(float(timing_repress)/1000.0)
         dict_buttons = joystick.get_buttons_pressed(*args)
-#    print "handleJoyEvent: Ending loop."
+    print "handleJoyEvent: Ending loop."
     args[-1].press()
+    return old_dict_buttons
 
 def main(joystick, green, red, yellow, blue, orange, strum):
     init()
@@ -77,18 +78,18 @@ def main(joystick, green, red, yellow, blue, orange, strum):
     font9 = pygame.font.Font("freesansbold.ttf", 9)
     font12 = pygame.font.Font("freesansbold.ttf", 12)
     while True:
-        scr.screen.fill(black)
-        scr.write_text((100, 0), "Go play!", font48, white)
-        scr.write_text((25, 72), "If you want to exit, press ALT-F4 or click the X Button", font12, white)
-        scr.flip()
         pygame.event.pump()
         pygame.event.clear()
         e = pygame.event.wait()
         if e.type == pygame.QUIT: handleExitEvent()
         elif e.type == pygame.JOYBUTTONDOWN:
-#            print "Starting handleJoyEvent"
+            print "Starting handleJoyEvent"
             handleJoyEvent(joystick, green, red, yellow, blue, orange, strum)
-#            print "Ending."
+            print "Ending."
+        scr.screen.fill(black)
+        scr.write_text((100, 0), "Go play!", font48, white)
+        scr.write_text((25, 72), "If you want to exit, press ALT-F4 or click the X Button", font12, white)
+        scr.flip()
 
 if __name__ == "__main__": main(joystick, green, red, yellow, blue, orange, strum)
         

@@ -16,13 +16,6 @@ emulator(PPJoy, vJoy).
  - pygame module (http://www.pygame.org)
  - SendKeys module (http://www.rutherfurd.net/python/sendkeys/)
 
-3º. Open the DSHero/__init__.py and edit the variables:
- - joystick: set the value to DSLib.Joystick(number), where number is the order of your 
-joystick -- see on Control Panel > Game Controllers(I don't know how it's called, I don't
-have the English version of Windows XP).
- - green/red/yellow/blue/orange: set to DSLib.Button(number), where number is the number
-of the button(again, see at Game Controllers).
- - strum: set to the key which you use to strum(recommended: maintain the ENTER key, and
-this on the game)
+3º. Run the DSConfig.py and see the instructions.
 
 4º. Open the program!

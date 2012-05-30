@@ -44,10 +44,10 @@ class pygame2exe(py2exe.build_exe.py2exe): #This hack make sure that pygame defa
 class BuildExe:
     def __init__(self):
         #Name of starting .py
-        self.script = "__init__.py"
+        self.script = "DSConfig.py"
  
         #Name of program
-        self.project_name = "DSHero"
+        self.project_name = "DSHeroConfig"
  
         #Project url
         self.project_url = "about:none"
@@ -90,7 +90,7 @@ class BuildExe:
         self.zipfile_name = None
  
         #Dist directory
-        self.dist_dir ='dist'
+        self.dist_dir ='DSHeroConfig'
  
     ## Code from DistUtils tutorial at http://wiki.python.org/moin/Distutils/Tutorial
     ## Originally borrowed from wxPython's setup and config files
