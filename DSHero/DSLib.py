@@ -70,6 +70,9 @@ class Button():
     '''Return if the button is pressed.'''
     def is_pressed(self):    
         return self.joystick.is_pressed(self)
+    
+    def __str__(self): return self.get_name()
+    def __repr__(self): return self.get_name()
 
 class Joystick():
     '''Initializes the joystick control
@@ -87,6 +90,9 @@ class Joystick():
     def get_name(self):
         return self.joystick.get_name()
     
+    '''Return the pygame.joystick.Joystick object.'''
+    def get_pygame_object(self): return self.joystick
+    
     def get_order(self):
         return self.order
     
@@ -95,11 +101,6 @@ class Joystick():
     def is_pressed(self, button):
         return self.joystick.get_button(button.get_name() - 1)
     
-    def wait_for_press(self):
-        e = pygame.event.wait()
-        if e.type == pygame.JOYBUTTONDOWN:
-            return Button(e.button, self)
-    
     '''Get the list of buttons that are pressed.
     'args': I really suppose that you will pass as argument buttons.'''    
     def get_buttons_pressed(self, *args):
@@ -107,3 +108,6 @@ class Joystick():
         for _ in args:
                 dictbtn[_.get_name()] = _.is_pressed()
         return dictbtn
+    
+    def __str__(self): return self.get_name()
+    def __repr__(self): return self.get_order()

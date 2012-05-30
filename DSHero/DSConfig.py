@@ -28,26 +28,31 @@ class DSConfig():
         self.white = pygame.color.Color("white")
         self.font = pygame.font.Font("freesansbold.ttf", 16)
         if not lib_mode:
-            self.scr = Screen((500, 100), "DSConfig")
+            self.scr = Screen((700, 50), "DSConfig")
         self.parser = ConfigParser.ConfigParser()
     
+    
+    '''Wait for a button press in a joystick, and return the joystick.'''
     def wait_for_joystick(self):
         for i in range(1, pygame.joystick.get_count()): # Joystick init.
             DSLib.Joystick(i)
         while True:
             e = pygame.event.wait()
-            print "Event get! %r" % e.type
             if e.type == pygame.JOYBUTTONDOWN:
                 print e.joy
                 return DSLib.Joystick(e.joy + 1)
-                break
             elif e.type == pygame.QUIT: pygame.quit(); sys.exit(0)
     
-    def wait_for_button(self, joy):
-        print "I'm waiting..."
+    '''Wait for a button press and return this button.
+    'joy' argument: The Joystick that you want to capture the button.
+    'buttons' argument: (optional) The list of Buttons that you want to exclude.'''
+    def wait_for_button(self, joy, buttons = []):
+        btnnumbers = []
+        for i in buttons:
+            btnnumbers.append(i.get_name())
         while True:
             e = pygame.event.wait()
-            if e.type == pygame.JOYBUTTONDOWN and e.joy == joy.get_order() - 1:
+            if e.type == pygame.JOYBUTTONDOWN and e.joy == joy.get_order() - 1 and (e.button + 1) not in btnnumbers:
                 return DSLib.Button(e.button + 1, joy)
             elif e.type == pygame.QUIT: pygame.quit(); sys.exit(0)
 
@@ -60,26 +65,30 @@ class DSConfig():
         self.write("Let's start: press a button on your joystick")
         joy = self.wait_for_joystick()
         self.write("Okay. Now press a button for green fret.")
-        green = self.wait_for_button(joy)
+        buttons = []
+        buttons.append(self.wait_for_button(joy, buttons))
         self.write("A good start! Now press a button for red fret.")
-        red = self.wait_for_button(joy)
+        buttons.append(self.wait_for_button(joy, buttons))
         self.write("Right! Now press a button for yellow fret.")
-        yellow = self.wait_for_button(joy)
+        buttons.append(self.wait_for_button(joy, buttons))
         self.write("Really good! Now press a button for blue fret.")
-        blue = self.wait_for_button(joy)
+        buttons.append(self.wait_for_button(joy, buttons))
         self.write("Almost finished! Now press a button for the orange fret.")
-        orange = self.wait_for_button(joy)
+        buttons.append(self.wait_for_button(joy, buttons))
         # Adding to config file.
         self.parser.add_section("Buttons")
         self.parser.set("Buttons", "joystick", str(joy.get_order()))
-        self.parser.set("Buttons", "green", str(green.get_name()))
-        self.parser.set("Buttons", "red", str(red.get_name()))
-        self.parser.set("Buttons", "yellow", str(yellow.get_name()))
-        self.parser.set("Buttons", "blue", str(blue.get_name()))
-        self.parser.set("Buttons", "orange", str(orange.get_name()))
+        self.parser.set("Buttons", "green", str(buttons[0].get_name()))
+        self.parser.set("Buttons", "red", str(buttons[1].get_name()))
+        self.parser.set("Buttons", "yellow", str(buttons[2].get_name()))
+        self.parser.set("Buttons", "blue", str(buttons[3].get_name()))
+        self.parser.set("Buttons", "orange", str(buttons[4].get_name()))
         with open("buttons.cfg", "w") as f:
             self.parser.write(f)
-        e = pygame.event.wait()
-        if e.type == pygame.QUIT: pygame.quit()
+        while True:
+            pygame.time.delay(1000/50)
+            self.write("Finished! Now, at game, set ENTER as the pick and buttons on frets.")
+            e = pygame.event.wait()
+            if e.type == pygame.QUIT: pygame.quit()
 
 if __name__ == "__main__": DSConfig().main()
