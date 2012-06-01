@@ -34,7 +34,9 @@ class DSConfig():
     
     '''Wait for a button press in a joystick, and return the joystick.'''
     def wait_for_joystick(self):
-        for i in range(1, pygame.joystick.get_count()): # Joystick init.
+        print pygame.joystick.get_count()
+        for i in range(1, pygame.joystick.get_count() + 1): # Joystick init.
+            print i
             DSLib.Joystick(i)
         while True:
             e = pygame.event.wait()

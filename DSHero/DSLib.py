@@ -73,6 +73,19 @@ class Button():
     
     def __str__(self): return self.get_name()
     def __repr__(self): return self.get_name()
+    def __eq__(self, other):
+        if isinstance(other, int):
+            return (other == self.get_name())
+        elif isinstance(other, Button):
+            return (other == self)
+        else: raise Exception, "Can't compare."
+    
+    def __ne__(self, other):
+        if isinstance(other, int):
+            return (other != self.get_name())
+        elif isinstance(other, Button):
+            return (other != self)
+        else: raise Exception, "Can't compare."
 
 class Joystick():
     '''Initializes the joystick control

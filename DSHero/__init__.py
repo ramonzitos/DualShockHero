@@ -37,7 +37,7 @@ orange = DSLib.Button(parser.getint("Buttons", "orange"), joystick)
 strum = DSLib.Key(pygame.K_RETURN, "{ENTER}")
 
 # Timing window(set at your preference).
-time_window = 5
+time_window = 10
 timing_repress = 10
 
 def init():
@@ -85,7 +85,7 @@ def main(joystick, green, red, yellow, blue, orange, strum):
         pygame.event.clear()
         e = pygame.event.wait()
         if e.type == pygame.QUIT: handleExitEvent()
-        elif e.type == pygame.JOYBUTTONDOWN:
+        elif e.type == pygame.JOYBUTTONDOWN and (e.button + 1) in [green, red, yellow, blue, orange]:
 #            print "Starting handleJoyEvent"
             handleJoyEvent(joystick, green, red, yellow, blue, orange, strum)
 #            print "Ending."
