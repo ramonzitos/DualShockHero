@@ -67,6 +67,9 @@ class Button():
     def get_name(self):
         return self.button
     
+    def get_joystick(self):
+        return self.joystick
+    
     '''Return if the button is pressed.'''
     def is_pressed(self):    
         return self.joystick.is_pressed(self)
@@ -77,15 +80,14 @@ class Button():
         if isinstance(other, int):
             return (other == self.get_name())
         elif isinstance(other, Button):
-            return (other == self)
-        else: raise Exception, "Can't compare."
+            return other.get_name() == self.get_name() and (other.get_joystick() == self.get_joystick())
+        return NotImplemented
     
     def __ne__(self, other):
-        if isinstance(other, int):
-            return (other != self.get_name())
-        elif isinstance(other, Button):
-            return (other != self)
-        else: raise Exception, "Can't compare."
+        res = self.__eq__(other)
+        if res != NotImplemented:
+            return res
+        return NotImplemented
 
 class Joystick():
     '''Initializes the joystick control
@@ -104,7 +106,7 @@ class Joystick():
         return self.joystick.get_name()
     
     '''Return the pygame.joystick.Joystick object.'''
-    def get_pygame_object(self): return self.joystick
+    def get_pygame_joystick_object(self): return self.joystick
     
     def get_order(self):
         return self.order
@@ -124,3 +126,15 @@ class Joystick():
     
     def __str__(self): return self.get_name()
     def __repr__(self): return self.get_order()
+    def __eq__(self, other):
+        if isinstance(other, int):
+            return (self.get_order() == other)
+        elif isinstance(other, Joystick):
+            return (self.get_order() == other.get_order())
+        return NotImplemented
+    def __ne__(self, other):
+        res = self.__eq__(other)
+        if res != NotImplemented:
+            return not res
+        return NotImplemented
+        

@@ -15,7 +15,6 @@
 
 import DSLib
 import pygame
-import time
 import sys
 import ConfigParser
 from PyGameWinLib import Screen
@@ -39,56 +38,57 @@ strum = DSLib.Key(pygame.K_RETURN, "{ENTER}")
 # Timing window(set at your preference).
 time_window = 10
 timing_repress = 10
+class DSHero():
+    def __init__(self, joystick, green, red, yellow, blue, orange, strum):
+        pygame.init()
+        pygame.display.init()
+        pygame.joystick.init()
+        self.joystick = joystick
+        self.green = green
+        self.red = red
+        self.yellow = yellow
+        self.blue = blue
+        self.orange = orange
+        self.strum = strum
 
-def init():
-    pygame.init()
-    pygame.display.init()
-    pygame.joystick.init()
-    
-def create_screen(size, title):
-    screen = pygame.display.set_mode(size)
-    pygame.display.set_caption(title)
-    return screen
+    def handleExitEvent(self):
+        pygame.quit()
+        sys.exit(0)
 
-def handleExitEvent():
-    pygame.quit()
-    sys.exit(0)
-
-def handleJoyEvent(joystick, *args):
-    global time_window
-    global timing_repress
-    old_dict_buttons = joystick.get_buttons_pressed(*args)
-    pygame.time.delay(time_window)
-    dict_buttons = joystick.get_buttons_pressed(*args)
-#    print "handleJoyEvent: Starting loop."
-    while not (old_dict_buttons == dict_buttons):
-        old_dict_buttons = dict_buttons
-        pygame.time.delay(timing_repress)
+    def handleJoyEvent(self):
+        global time_window
+        global timing_repress
+        args = [self.green, self.red, self.yellow, self.blue, self.orange]
+        old_dict_buttons = joystick.get_buttons_pressed(*args)
+        pygame.time.delay(time_window)
         dict_buttons = joystick.get_buttons_pressed(*args)
-#    print "handleJoyEvent: Ending loop."
-    args[-1].press()
+        while not (old_dict_buttons == dict_buttons):
+            old_dict_buttons = dict_buttons
+            pygame.time.delay(timing_repress)
+            dict_buttons = joystick.get_buttons_pressed(*args)
+        self.strum.press()
 
-def main(joystick, green, red, yellow, blue, orange, strum):
-    init()
-    scr = Screen((400, 300), "IGNORE ME")
-    white = pygame.color.Color("white")
-    black = pygame.color.Color("black")
-    font48 = pygame.font.Font("freesansbold.ttf", 48)
-    font9 = pygame.font.Font("freesansbold.ttf", 9)
-    font12 = pygame.font.Font("freesansbold.ttf", 12)
-    while True:
-        scr.screen.fill(black)
-        scr.write_text((100, 0), "Go play!", font48, white)
-        scr.write_text((25, 72), "If you want to exit, press ALT-F4 or click the X Button", font12, white)
-        scr.flip()
-        pygame.event.pump()
-        pygame.event.clear()
-        e = pygame.event.wait()
-        if e.type == pygame.QUIT: handleExitEvent()
-        elif e.type == pygame.JOYBUTTONDOWN and (e.button + 1) in [green, red, yellow, blue, orange]:
-#            print "Starting handleJoyEvent"
-            handleJoyEvent(joystick, green, red, yellow, blue, orange, strum)
-#            print "Ending."
+    def main(self):
+        scr = Screen((400, 300), "IGNORE ME")
+        white = pygame.color.Color("white")
+        black = pygame.color.Color("black")
+        font48 = pygame.font.Font("freesansbold.ttf", 48)
+        font9 = pygame.font.Font("freesansbold.ttf", 9)
+        font12 = pygame.font.Font("freesansbold.ttf", 12)
+        while True:
+            scr.fill(black)
+            scr.write_text((100, 0), "Go play!", font48, white)
+            scr.write_text((25, 72), "If you want to exit, press ALT-F4 or click the X Button", font12, white)
+            scr.flip()
+            pygame.event.pump()
+            pygame.event.clear()
+            e = pygame.event.wait()
+            if e.type == pygame.QUIT: self.handleExitEvent()
+            elif e.type == pygame.JOYBUTTONDOWN and DSLib.Button(e.button + 1, joystick) in [green, red, yellow, blue, orange]:
+                self.handleJoyEvent()   
 
-if __name__ == "__main__": main(joystick, green, red, yellow, blue, orange, strum)
+
+if __name__ == "__main__":
+    dshero = DSHero(joystick, green, red, yellow, blue, orange, strum)
+    dshero.main()
         
