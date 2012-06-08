@@ -39,7 +39,7 @@ strum = DSLib.Key(pygame.K_RETURN, "{ENTER}")
 time_window = 10
 timing_repress = 10
 class DSHero():
-    def __init__(self, joystick, green, red, yellow, blue, orange, strum):
+    def __init__(self, joystick, green, red, yellow, blue, orange, strum, parser):
         pygame.init()
         pygame.display.init()
         pygame.joystick.init()
@@ -50,6 +50,7 @@ class DSHero():
         self.blue = blue
         self.orange = orange
         self.strum = strum
+        self.parser = parser
 
     def handleExitEvent(self):
         pygame.quit()
@@ -73,12 +74,18 @@ class DSHero():
         white = pygame.color.Color("white")
         black = pygame.color.Color("black")
         font48 = pygame.font.Font("freesansbold.ttf", 48)
-        font9 = pygame.font.Font("freesansbold.ttf", 9)
         font12 = pygame.font.Font("freesansbold.ttf", 12)
         while True:
             scr.fill(black)
             scr.write_text((100, 0), "Go play!", font48, white)
             scr.write_text((25, 72), "If you want to exit, press ALT-F4 or click the X Button", font12, white)
+            i = 82
+            for k, v in self.parser.items("Buttons"):
+                i += 13
+                if k == "joystick": scr.write_text((10, i), "Joystick: (%d) %s" % (self.joystick.get_order(), self.joystick.get_name()),
+                                                   font12, white)
+                else: scr.write_text((10, i), "%s button: %s" % (k.capitalize(), v),
+                                     font12, white)
             scr.flip()
             pygame.event.pump()
             pygame.event.clear()
@@ -89,6 +96,6 @@ class DSHero():
 
 
 if __name__ == "__main__":
-    dshero = DSHero(joystick, green, red, yellow, blue, orange, strum)
+    dshero = DSHero(joystick, green, red, yellow, blue, orange, strum, parser)
     dshero.main()
         

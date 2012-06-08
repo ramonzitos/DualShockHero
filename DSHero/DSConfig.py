@@ -19,10 +19,13 @@ import sys
 from PyGameWinLib import Screen
 
 class DSConfig():
-    def __init__(self, lib_mode = False):
+    def init_pygame(self):
         pygame.init()
         pygame.joystick.init()
         pygame.display.init()
+        
+    def __init__(self, lib_mode = False):
+        self.init_pygame()
         self.lib_mode = lib_mode
         self.black = pygame.color.Color("black")
         self.white = pygame.color.Color("white")
