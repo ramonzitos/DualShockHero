@@ -13,10 +13,12 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import DSLib
-import pygame
 import sys
 import ConfigParser
+
+import pygame
+
+import DSLib
 from PyGameWinLib import Screen
 
 # ConfigParser setted on DSConfig.exe
@@ -85,17 +87,23 @@ class DSHero():
         font16 = pygame.font.Font("freesansbold.ttf", 16)
         
         menu_position = 0
-        menu_items = {"Time for first press:": self.time_window, "Time for repress:": self.time_repress}
+        menu_items = {"Time for first press:": self.time_window,
+                      "Time for repress:": self.time_repress}
         while True:
             scr.fill(black)
             scr.write_text((100, 0), "Go play!", font48, white)
-            scr.write_text((25, 72), "If you want to exit, press ALT-F4 or click the X Button", font12, white)
+            scr.write_text((25, 72),
+                "If you want to exit, press ALT-F4 or click the X Button", font12, white)
             i = 82
+            
             for k, v in self.parser.items("Buttons"):
                 i += 13
-                if k == "joystick": scr.write_text((10, i), "Joystick: (%d) %s" % (self.joystick.get_order(), self.joystick.get_name()),
-                                                   font12, white)
-                else: scr.write_text((10, i), "%s button: %s" % (k.capitalize(), v),
+                if k == "joystick":
+                    scr.write_text((10, i),
+                        "Joystick: (%d) %s" % (self.joystick.get_order(),
+                            self.joystick.get_name()), font12, white)
+                else:
+                    scr.write_text((10, i), "%s button: %s" % (k.capitalize(), v),
                                      font12, white)
             
             i += 20
