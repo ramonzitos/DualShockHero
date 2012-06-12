@@ -67,10 +67,11 @@ class DSConfig():
         self.scr.flip()
     
     def main(self):
+        buttons = []
+        
         self.write("Let's start: press a button on your joystick")
         joy = self.wait_for_joystick()
         self.write("Okay. Now press a button for green fret.")
-        buttons = []
         buttons.append(self.wait_for_button(joy, buttons))
         self.write("A good start! Now press a button for red fret.")
         buttons.append(self.wait_for_button(joy, buttons))
@@ -80,6 +81,7 @@ class DSConfig():
         buttons.append(self.wait_for_button(joy, buttons))
         self.write("Almost finished! Now press a button for the orange fret.")
         buttons.append(self.wait_for_button(joy, buttons))
+        
         # Adding to config file.
         self.parser.add_section("Buttons")
         self.parser.set("Buttons", "joystick", str(joy.get_order()))

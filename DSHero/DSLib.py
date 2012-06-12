@@ -22,7 +22,7 @@ import pygame
 class Key():
     '''Initializes the key control.
     Please, use this as an example for 'key' argument:
-    "space", "left", "a", "s", "tab", "alt"
+    pygame.K_RETURN, pygame.K_a, etc.
     'sendkeys_key': ADVANCED, for certain keys, like RETURN, you need to use
     a special key, like {ENTER}. Search for the SendKeys Python module.'''
     def __init__(self, key, sendkeys_key = None):
@@ -117,7 +117,7 @@ class Joystick():
         return self.joystick.get_button(button.get_name() - 1)
     
     '''Get the list of buttons that are pressed.
-    'args': I really suppose that you will pass as argument buttons.'''    
+    'args': I really suppose that you will pass as argument a list of buttons.'''    
     def get_buttons_pressed(self, *args):
         dictbtn = {}
         for _ in args:
